@@ -347,6 +347,7 @@ class JupyterGradedXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin,
             print(type(f.file))
             print(type(f.file.read()))
             print(type(f.file.read().decode('utf-8')))
+            print(f.file.read().decode('utf-8'))
             nbu.update_requirements(str(self.course_id), f)
             req = nbu.get_requirements(str(self.course_id))
             response = {'success': True, 'requirements': "<br>".join(req)}
