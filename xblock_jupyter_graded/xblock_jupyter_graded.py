@@ -4,15 +4,22 @@ import json
 import logging
 import os
 import pkg_resources
-from urllib import urlencode
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 from webob import Response
 
-from django.core.urlresolvers import reverse
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls import reverse
+
 from django.template import Template, Context
 from django.utils import timezone, dateparse
-import nbgrader_utils as nbu
+from . import nbgrader_utils as nbu
 
-from scorable import ScorableXBlockMixin, Score
+from .scorable import ScorableXBlockMixin, Score
 
 from xblock.core import XBlock
 from xblock.fields import Scope, String, Integer, Float, Boolean, List
@@ -185,7 +192,7 @@ class JupyterGradedXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin,
 
         frag = Fragment(html)
         frag.add_javascript(loader.load_unicode('/static/js/student.js'))
-	frag.add_css(loader.load_unicode('static/css/styles.css'))
+        frag.add_css(loader.load_unicode('static/css/styles.css'))
         frag.initialize_js('JupyterGradedXBlock', {'xblock_id': self._get_xblock_loc()})
 
         return frag
@@ -219,8 +226,8 @@ class JupyterGradedXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin,
         html = loader.render_django_template('templates/xblock_jupyter_graded/author_view.html', ctx_data)
 
         frag = Fragment(html)
+        frag.add_css(loader.load_unicode('static/css/styles.css'))
         frag.add_javascript(loader.load_unicode("/static/js/author.js"))
-	frag.add_css(loader.load_unicode('static/css/styles.css'))
         frag.initialize_js('JupyterGradedXBlock', {'xblock_id': self._get_xblock_loc()})
 
         return frag
@@ -239,7 +246,7 @@ class JupyterGradedXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin,
             return Response(body=json.dumps(error), 
                 content_type="application/json", status=200);
 
-	try:
+        try:
             # Run Container to get max possible score and generate student 
             # version
             max_score = nbu.generate_student_nb(
@@ -261,8 +268,8 @@ class JupyterGradedXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin,
                 'instructor_download_url': self._get_nb_url('instructor'),
                 'student_download_url': self._get_nb_url('student')
                 }
+        except Exception as e:
 
-	except Exception as e:
             log.exception(e)
             response = {'success': False, 'error': str(e)}
     
