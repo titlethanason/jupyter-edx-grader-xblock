@@ -244,7 +244,7 @@ class JupyterGradedXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin,
         error = self.validate_instructor_nb_upload(request)
         if error:
             return Response(body=json.dumps(error), 
-                content_type="application/json", status=200);
+                content_type="application/json", status=200, charset="UTF-8");
 
         try:
             # Run Container to get max possible score and generate student 
@@ -273,7 +273,7 @@ class JupyterGradedXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin,
             log.exception(e)
             response = {'success': False, 'error': str(e)}
     
-        return Response(body=json.dumps(response), content_type="application/json", status=200);
+        return Response(body=json.dumps(response), content_type="application/json", status=200, charset="UTF-8");
 
     @XBlock.handler
     def handle_student_nb_upload(self, request, suffix=u''):
@@ -287,7 +287,7 @@ class JupyterGradedXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin,
         error = self.validate_student_nb_upload(request)
         if error:
             return Response(body=json.dumps(error), 
-                content_type="application/json", status=200);
+                content_type="application/json", status=200, charset="UTF-8");
 
         # Get User Info
         user_service = self.runtime.service(self, 'user')
@@ -335,7 +335,7 @@ class JupyterGradedXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin,
             }
 
         return Response(body=json.dumps(response), 
-                content_type="application/json", status=200);
+                content_type="application/json", status=200, charset="UTF-8");
 
     @XBlock.handler
     def handle_requirements_upload(self, request, suffix=u''):
@@ -351,8 +351,8 @@ class JupyterGradedXBlock(StudioEditableXBlockMixin, ScorableXBlockMixin,
         except Exception as e:
             response = {'success': False, 'error': str(e)}
 
-        return Response(body=json.dumps(response), 
-                content_type="application/json", status=200);
+        return Response(body=json.dumps(response),
+                content_type="application/json", status=200, charset="UTF-8");
 
     def validate_student_nb_upload(self, request):
         """Validate student notebook uploaded file"""
