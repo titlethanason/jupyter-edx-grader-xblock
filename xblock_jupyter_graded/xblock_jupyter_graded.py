@@ -28,7 +28,7 @@ from xblockutils.studio_editable import StudioEditableXBlockMixin
 from xblockutils.resources import ResourceLoader
 from xmodule.studio_editable import StudioEditableBlock
 
-from rest.urls import app_name
+from .rest.urls import app_name
 
 log = logging.getLogger(__name__)
 loader = ResourceLoader(__name__)
