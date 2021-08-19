@@ -90,7 +90,7 @@ def validate_instructor_nb(nb_file):
 
     try:
         # TODO: as_verion = 4? should this come from the nb somehow?
-        nb = nbformat.reads(raw, as_version=4)
+        nb = nbformat.reads(raw.decode("utf-8"), as_version=4)
 
     except Exception as e:
         log.exception(e)
