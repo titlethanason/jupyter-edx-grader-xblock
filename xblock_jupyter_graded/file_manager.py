@@ -58,7 +58,7 @@ def save_instructor_nb(course_id, unit_id, f):
 
     nb_path = os.path.join(EDX_ROOT, course_id, SOURCE, unit_id, f.filename)
     with open(nb_path, "w") as nb:
-        nb.write(f.file.read())
+        nb.write(f.file.read().decode('utf-8'))
 
     log.info("Wrote file: {}".format(nb_path))
 
